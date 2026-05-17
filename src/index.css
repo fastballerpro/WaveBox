@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    @apply text-text font-sans antialiased;
+    background: #06060a;
+    user-select: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.16);
+    background-clip: padding-box;
+  }
+
+  input,
+  textarea {
+    user-select: text;
+  }
+
+  ::selection {
+    background: rgba(255, 85, 0, 0.4);
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* ---------- LIQUID GLASS ---------- */
+
+  /* Subtle floating glass — for cards and rows (NO backdrop-filter = huge RAM save) */
+  .glass {
+    background: linear-gradient(
+      135deg,
+      rgba(22, 22, 32, 0.85) 0%,
+      rgba(16, 16, 24, 0.80) 60%,
+      rgba(20, 20, 30, 0.82) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow:
+      0 8px 28px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Chrome surfaces (titlebar, sidebar, player) — opaque, no blur */
+  .glass-chrome {
+    background: linear-gradient(
+      180deg,
+      rgba(16, 16, 24, 0.95) 0%,
+      rgba(12, 12, 18, 0.92) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.30);
+  }
+
+  /* Floating modal/aside — only place we keep a small blur */
+  .glass-floating {
+    background: linear-gradient(
+      135deg,
+      rgba(24, 24, 36, 0.92) 0%,
+      rgba(16, 16, 26, 0.88) 100%
+    );
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.55),
+      0 8px 24px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.30);
+    border-radius: 28px;
+  }
+
+  /* Specular highlight — merged into border-top instead of pseudo-element layer */
+  .glass-specular {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* ---------- BUTTONS ---------- */
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    transition-duration: 220ms;
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, #ff7733 0%, #ff5500 100%);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+      0 8px 22px rgba(255, 85, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.30),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 12px 28px rgba(255, 85, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.36),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+    filter: brightness(0.95);
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    box-shadow: none;
+  }
+
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.06);
+    color: #f1f1f4;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.20);
+  }
+  .btn-glass:hover {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+  .btn-glass:active {
+    transform: scale(0.97);
+  }
+
+  .btn-ghost {
+    @apply text-text-dim;
+    background: transparent;
+    transition: all 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn-ghost:hover {
+    color: #f1f1f4;
+    background: rgba(255, 255, 255, 0.07);
+  }
+  .btn-ghost:active {
+    transform: scale(0.96);
+  }
+
+  /* Compatibility alias used in older components */
+  .card {
+    @apply glass glass-specular;
+    border-radius: 20px;
+  }
+
+  .row-hover {
+    transition: all 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    border-radius: 14px;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 56px;
+  }
+  .row-hover:hover {
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Glass pill input */
+  .pill-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 9999px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.20);
+    transition: all 200ms ease;
+  }
+  .pill-input:focus-within {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 119, 51, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 0 0 3px rgba(255, 85, 0, 0.18);
+  }
+
+  .draggable {
+    -webkit-app-region: drag;
+  }
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+}
+
+/* ambient blobs removed — replaced with static CSS gradient in AmbientBackdrop */
+
+/* ---------- RANGE SLIDERS (volume etc.) ---------- */
+.range {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+}
+.range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #fff 0%, #d8d8de 100%);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.range:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.range:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
