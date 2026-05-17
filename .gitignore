@@ -7,4 +7,3 @@ release
 .env
 .env.local
 *.log
-build
